@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mental Health Landing Page</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .font-playfair {
+        font-family: "Playfair Display", serif;
+      }
+      .font-inter {
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+  </head>
+  <body class="font-inter bg-white">
+    <!-- Navigation -->
+    <nav class="container mx-auto px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="h-8 w-8 bg-black rounded-full"></div>
+        <span class="font-semibold">Raft</span>
+      </div>
+
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#" class="text-sm text-gray-600">ABOUT US</a>
+        <a href="#" class="text-sm text-gray-600">SPEAK WITH US</a>
+        <a href="#" class="text-sm text-gray-600">EVENTS</a>
+        <a href="#" class="text-sm text-gray-600">CONTACT US</a>
+      </div>
+
+      <button
+        class="px-6 py-2 border border-gray-200 rounded-full text-sm hover:bg-gray-50 transition-colors"
+      >
+        GET STARTED
+      </button>
+    </nav>
+
+    <!-- Hero Section -->
+    <main class="container mx-auto px-4 py-12">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="space-y-8">
+          <h1 class="text-5xl md:text-6xl font-playfair font-bold">
+            Your Mental Health Matter
+            <span class="text-orange-400">+</span>
+          </h1>
+
+          <p class="text-gray-600">You don't have to struggle in silence</p>
+
+          <!-- Audio Player -->
+          <div class="flex items-center gap-4">
+            <button
+              id="playButton"
+              class="h-10 w-10 flex items-center justify-center border border-gray-200 rounded-full hover:bg-gray-50"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+            </button>
+            <div class="flex-1 space-y-2">
+              <input
+                type="range"
+                id="audioProgress"
+                class="w-full h-2 bg-gray-100 rounded-lg appearance-none cursor-pointer"
+                value="0"
+                min="0"
+                max="100"
+              />
+              <div class="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
+                <div
+                  id="progressBar"
+                  class="h-full w-0 bg-gray-300 transition-all duration-200"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="relative">
+          <div class="aspect-square relative">
+            <div
+              class="absolute inset-0 bg-slate-900 rounded-full overflow-hidden"
+            >
+              <div class="relative h-full w-full">
+                <!-- Decorative Elements -->
+                <div
+                  class="absolute top-1/4 left-1/4 h-4 w-4 bg-orange-400 rounded-full"
+                ></div>
+                <div
+                  class="absolute top-1/3 right-1/3 h-6 w-6 bg-purple-400 rounded-full opacity-50"
+                ></div>
+                <div
+                  class="absolute bottom-1/4 right-1/4 h-8 w-8 bg-blue-400 rounded-full opacity-30"
+                ></div>
+
+                <!-- Central Figure -->
+                <div
+                  class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                >
+                  <div class="h-32 w-24 bg-orange-300 rounded-full"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      // Audio player functionality
+      const playButton = document.getElementById("playButton");
+      const audioProgress = document.getElementById("audioProgress");
+      const progressBar = document.getElementById("progressBar");
+      let isPlaying = false;
+
+      playButton.addEventListener("click", () => {
+        isPlaying = !isPlaying;
+        if (isPlaying) {
+          playButton.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="6" y="4" width="4" height="16"></rect>
+                        <rect x="14" y="4" width="4" height="16"></rect>
+                    </svg>
+                `;
+        } else {
+          playButton.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                `;
+        }
+      });
+
+      audioProgress.addEventListener("input", (e) => {
+        const value = e.target.value;
+        progressBar.style.width = `${value}%`;
+      });
+    </script>
+  </body>
+</html>
