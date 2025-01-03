@@ -8,4 +8,5 @@ admin.site.index_title = "Welcome to Mental-health"
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('home.urls')),
+    path('/login',include('home.urls')),
 ]
