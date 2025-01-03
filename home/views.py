@@ -6,3 +6,15 @@ def index(request):
 
 def login(request):
     return render(request, 'login.html');
+
+def signup(request):
+    return render(request, 'signup.html');
+
+def homepage(request):
+    return render(request, 'homepage.html');
+
+def createpost(request):
+    return render(request, 'createpost.html');
+
+def profile(request):
+    return render(request, 'profile.html');

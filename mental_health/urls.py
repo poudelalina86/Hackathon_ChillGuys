@@ -9,4 +9,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('home.urls')),
     path('/login',include('home.urls')),
+    path('/signup',include('home.urls')),
+    path('/homepage',include('home.urls')),
+    path('/createpost',include('home.urls')),
+    path('/profile',include('home.urls')),
 ]

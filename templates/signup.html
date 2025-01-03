@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .input-with-icon {
+        transition: all 0.3s ease;
+      }
+      .input-with-icon:focus-within {
+        transform: translateX(10px);
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex items-center justify-center">
+    <div
+      class="w-full max-w-md p-8 backdrop-blur-sm rounded-3xl shadow-xl bg-gray-200"
+    >
+      <h1 class="text-4xl font-bold text-center mb-8">Sign Up</h1>
+
+      <form class="space-y-4">
+        <!-- Name Fields Row -->
+        <div class="grid grid-cols-2 gap-4">
+          <div
+            class="input-with-icon flex items-center bg-white rounded-full overflow-hidden shadow-lg"
+          >
+            <input
+              type="text"
+              placeholder="First Name"
+              class="flex-1 p-4 focus:outline-none text-gray-700"
+              required
+            />
+          </div>
+          <div
+            class="input-with-icon flex items-center bg-white rounded-full overflow-hidden shadow-lg"
+          >
+            <input
+              type="text"
+              placeholder="Last Name"
+              class="flex-1 p-4 focus:outline-none text-gray-700"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- Email Input -->
+        <div
+          class="input-with-icon flex items-center bg-white rounded-full overflow-hidden shadow-lg"
+        >
+          <div class="p-4">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+              />
+            </svg>
+          </div>
+          <input
+            type="email"
+            placeholder="Email"
+            class="flex-1 p-4 focus:outline-none text-gray-700"
+            required
+          />
+        </div>
+
+        <!-- Password Input -->
+        <div
+          class="input-with-icon flex items-center bg-white rounded-full overflow-hidden shadow-lg"
+        >
+          <div class="p-4">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+              />
+            </svg>
+          </div>
+          <input
+            type="password"
+            placeholder="Password"
+            class="flex-1 p-4 focus:outline-none text-gray-700"
+            required
+          />
+        </div>
+
+        <!-- Confirm Password Input -->
+        <div
+          class="input-with-icon flex items-center bg-white rounded-full overflow-hidden shadow-lg"
+        >
+          <div class="p-4">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+              />
+            </svg>
+          </div>
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            class="flex-1 p-4 focus:outline-none text-gray-700"
+            required
+          />
+        </div>
+
+        <!-- Terms Checkbox -->
+        <div class="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            id="terms"
+            class="w-4 h-4 rounded border-gray-300"
+            required
+          />
+          <label for="terms" class="text-sm">
+            I accept the Terms of Use & Privacy Policy
+          </label>
+        </div>
+
+        <!-- Sign Up Button -->
+        <button
+          type="submit"
+          class="input-with-icon w-full flex items-center justify-center rounded-full p-4 font-semibold shadow-lg focus:outline-none focus:ring-offset-2 bg-color-white hover:bg-orange-100"
+        >
+          <span>Sign Up</span>
+        </button>
+
+        <!-- Login Link -->
+        <div class="text-center text-sm">
+          Already have an account?
+          <a href="login.html" class="underline">Login here</a>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      document.querySelector("form").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const formData = {
+          firstName: this.querySelector('input[placeholder="First Name"]')
+            .value,
+          lastName: this.querySelector('input[placeholder="Last Name"]').value,
+          email: this.querySelector('input[type="email"]').value,
+          password: this.querySelector('input[placeholder="Password"]').value,
+          confirmPassword: this.querySelector(
+            'input[placeholder="Confirm Password"]'
+          ).value,
+          acceptedTerms: this.querySelector('input[type="checkbox"]').checked,
+        };
+
+        // Add your signup logic here
+        console.log("Sign up attempt:", formData);
+      });
+    </script>
+  </body>
+</html>
