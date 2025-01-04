@@ -16,7 +16,7 @@
     <header class="bg-orange-200 shadow-md">
       <nav class="container mx-auto px-4">
         <div class="flex items-center justify-between h-16">
-          <a class="text-xl font-bold text-orange-800" href="/">HARSHA</a>
+          <a class="text-xl font-bold text-orange-800" href="/">MOOD MATRIX</a>
           <div class="flex items-center space-x-8">
             <a class="text-orange-800 hover:underline" href="/homepage">Home</a>
           </div>
@@ -33,7 +33,7 @@
     </header>
 
     <!-- Profile Section -->
-    <div class="content-section container mx-auto px-4 py-8">
+    {% comment %} <div class="content-section container mx-auto px-4 py-8">
       {% for message in messages %}
       <div
         class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4 mb-4"
@@ -42,7 +42,7 @@
         <p class="font-bold">Message</p>
         <p>{{ message }}</p>
       </div>
-      {% endfor %}
+      {% endfor %} {% endcomment %}
       <div class="flex items-center space-x-6">
         <img
           class="w-24 h-24 rounded-full border-2 border-orange-400"

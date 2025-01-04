@@ -148,7 +148,16 @@
         >
           <span>Sign Up</span>
         </button>
-
+        <div class="content-section container mx-auto px-4 py-8">
+          {% for message in messages %}
+          <div
+            class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4 mb-4"
+            role="alert"
+          >
+            <p class="font-bold">Message</p>
+            <p>{{ message }}</p>
+          </div>
+          {% endfor %}
         <!-- Login Link -->
         <div class="text-center text-sm">
           Already have an account?
