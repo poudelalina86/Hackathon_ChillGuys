@@ -21,7 +21,6 @@ def index(request):
 
 # Logout view
 def logoutuser(request):
-    logout(request)
     return redirect('/')
 
 
