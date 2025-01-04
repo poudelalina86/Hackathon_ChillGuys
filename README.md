@@ -71,7 +71,7 @@ Follow these steps to set up the project locally:
 5. **Edit Profile**: Update your profile picture and personal details.
 
 ## Machine Learning Model
-The platform uses a pre-trained hate speech detection model. The model is stored in an `.h5` file and is loaded during server startup. The model predicts whether a comment contains offensive or hate speech using natural language processing (NLP).
+The platform uses a pre-trained hate speech detection model. The model is stored in an `.pkl` file and is loaded during server startup. The model predicts whether a comment contains offensive or hate speech using natural language processing (NLP).
 
 ## Future Enhancements
 - Add a user dashboard with analytics (e.g., number of flagged comments).
