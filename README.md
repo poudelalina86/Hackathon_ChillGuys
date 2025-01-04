@@ -73,39 +73,6 @@ Follow these steps to set up the project locally:
 ## Machine Learning Model
 The platform uses a pre-trained hate speech detection model. The model is stored in an `.h5` file and is loaded during server startup. The model predicts whether a comment contains offensive or hate speech using natural language processing (NLP).
 
-## Folder Structure
-
-```
-project-root/
-├── manage.py
-├── db.sqlite3
-├── requirements.txt
-├── README.md
-├── static/
-│   ├── css/
-│   ├── js/
-│   └── images/
-├── templates/
-│   ├── base.html
-│   ├── login.html
-│   ├── signup.html
-│   ├── profile.html
-│   ├── post_form.html
-│   └── ...
-├── media/
-│   └── profile_pictures/
-├── app_name/
-│   ├── migrations/
-│   ├── templates/app_name/
-│   ├── static/app_name/
-│   ├── views.py
-│   ├── models.py
-│   ├── urls.py
-│   └── ...
-└── ml_model/
-    └── hate_speech_model.h5
-```
-
 ## Future Enhancements
 - Add a user dashboard with analytics (e.g., number of flagged comments).
 - Implement a warning system for users who post offensive content.
