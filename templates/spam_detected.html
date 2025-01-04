@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submission Issue</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            text-align: center;
+            padding: 50px;
+        }
+        .message {
+            background-color: #ffefc1;
+            color: #333;
+            border: 1px solid #ffdd99;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hold on a moment!</h1>
+        <div class="message">
+            {{ message }}
+        </div>
+        <p><a href="{% url 'postcreate' %}">Go back and try again</a></p>
+    </div>
+</body>
+</html>

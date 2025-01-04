@@ -140,11 +140,17 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         is_title_spam = self.classify_text(title)
         is_content_spam = self.classify_text(content)
 
-        if is_title_spam:
-            return HttpResponse("Spam detected in the title")
-        elif is_content_spam:
-            return HttpResponse("Spam detected in the content")
+        # if is_title_spam:
+        #     return HttpResponse("Spam detected in the title")
+        # elif is_content_spam:
+        #     return HttpResponse("Spam detected in the content")
 
+        if is_title_spam or is_content_spam:
+            # Prepare a positive message for spam detection
+            context = {
+                'message': "Oops! It looks like some of your input was flagged as spam. Don't worry, you can try submitting again with different words. Let's create something amazing!"
+            }
+            return render(self.request, 'spam_detected.html', context)
         # If no spam detected, associate the author and proceed
         form.instance.author = self.request.user
         return super().form_valid(form)
