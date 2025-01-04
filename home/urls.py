@@ -11,7 +11,6 @@ urlpatterns = [
     path('signup',user_views.signin, name='signin'),
     path('signinauth',user_views.signin_auth,name='signinauth'),
     path('loginpage',user_views.login_page,name="loginpage"),
-    path('')
     path('homepage', PostListView.as_view(),name='homepage'),
     path('homepage/post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
     path('homepage/post/create/', PostCreateView.as_view(),name='post-create'),
