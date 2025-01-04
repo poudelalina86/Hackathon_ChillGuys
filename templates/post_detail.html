@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Post</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="min-h-screen bg-orange-50">
+    <!-- Header -->
+    <header class="bg-orange-200 shadow-md">
+      <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+          <div class="flex items-center space-x-8">
+            <a href="homepage" class="text-xl font-bold text-orange-800"
+              >Mood Matrix</a
+            >
+            <a href="homepage" class="text-orange-800">Home</a>
+          </div>
+          <div class="flex items-center space-x-4">
+            <a
+              href="profile"
+              class="text-orange-900 hover:bg-orange-300 px-3 py-2 rounded-md text-sm font-medium"
+              >Profile</a
+            >
+            <a
+              href="#"
+              class="text-orange-900 hover:bg-orange-300 px-3 py-2 rounded-md text-sm font-medium"
+              >Logout</a
+            >
+          </div>
+        </div>
+      </div>
+    </header>
+    <main role="main" class="container">
+      <div class="row">
+        <div class="col-md-8">
+           <article class="media content-section">
+             <img class ="rounded-circle article-img"src="{{object.author.profile.image.url}}">
+            <div class="media-body">
+              <div class="article-metadata">
+                <a class="mr-2" href="#">{{ object.author }}</a>
+                <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
+                {% if objects.author == user %}
+                  <a class="btn btn-secondary bth-sm mt-1 md-1" href="{% url 'post-update' object.id %}">Update</a>
+                  <a class="btn btn-danger bth-sm mt-1 md-1" href="{% url 'post-delete' object.id %}">Delete</a>            
+                  {% endif %}
+              </div>
+              
+              <h2 class="article-title">{{ object.title }}</h2>
+              <p class="article-content">{{ object.content }}</p>
+            </div>          
+           </article>
+        </div>
+      </div>
+      <div class="container">
+        <h3>Comments</h3>
+        {% for comment in object.postcomment_set.all %}
+        <div class="row my-3">
+            <div class="col-md-2">
+                <img src="{{ comment.user.profile.image.url }}" class="rounded-circle comment-img" alt="User Image" style="width: 50px; height: 50px;">
+            </div>
+            <div class="col-md-10">
+                <p>{{ comment.comments }}</p>
+            </div>
+        </div>
+        {% endfor %}
+        <form method="post">
+          {% csrf_token %}
+          <div class="form-group">
+              <textarea class="form-control" name="comments" placeholder="Add a comment"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Post Comment</button>
+      </form>
+     </div>
+  </div>
+    </main>
+  </body>
+</html>

@@ -5,14 +5,6 @@ from django.contrib.auth import logout,login,authenticate
 from  .forms import UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
 
-# Create your views here.
-from django.shortcuts import render, redirect, HttpResponse
-from django.contrib import messages
-from django.contrib.auth.models import User
-from django.contrib.auth import logout,login,authenticate
-from  .forms import UserUpdateForm, ProfileUpdateForm
-from django.contrib.auth.decorators import login_required
-
 # def index(request):
 #     return render(request,'index.html')
 
@@ -44,13 +36,23 @@ def signin_auth(request):
          if password1!=password2:
            messages.error(request,"Password donnot match!")
            return redirect('signin')
-              
+         
+         if not username.isalnum():
+           messages.error(request,"Username must be Alpha-Numeric!")
+           return redirect('signin')    
+         
          else:   
           my_user=User.objects.create_user(username,email,password1)
           my_user.username = username
           my_user.save()
 
           messages.success(request,"Your Account has been created successfully.")
+          
+          #Welcome Email
+
+        #   subject = "Welcome to Harsha"
+        #   message
+
 
           return redirect('loginpage')
      return redirect('signin')
@@ -64,7 +66,7 @@ def login_page(request):
          if user is not None:
             # A backend authenticated the credentials
             login(request,user)
-            return redirect('/templates/homepage.html')
+            return redirect('homepage')
          else:
              # No backend authenticated the credentials
 

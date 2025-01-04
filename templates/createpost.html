@@ -31,7 +31,7 @@
     <main class="container mx-auto px-4 py-6">
       <div class="bg-white shadow-md rounded-md p-6">
         <h2 class="text-2xl font-bold text-orange-800 mb-4">Create Post</h2>
-        <form method="POST" action="{% url 'create_post' %}" id="createPostForm" class="space-y-4">
+        <form method="POST" action="{% url 'post-create' %}" id="createPostForm" class="space-y-4">
           {% csrf_token %}
           
           <!-- Post Title -->
