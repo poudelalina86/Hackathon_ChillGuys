@@ -16,14 +16,14 @@
       <div class="container mx-auto px-4">
         <div class="flex items-center justify-between h-16">
           <div class="flex items-center space-x-8">
-            <a href="homepage" class="text-xl font-bold text-orange-800"
+            <a href="/homepage" class="text-xl font-bold text-orange-800"
               >Mood Matrix</a
             >
-            <a href="homepage" class="text-orange-800">Home</a>
+            <a href="{% url 'homepage' %}" class="text-orange-800">Home</a>
           </div>
           <div class="flex items-center space-x-4">
             <a
-              href="profile"
+              href="{% url 'profile' %}"
               class="text-orange-900 hover:bg-orange-300 px-3 py-2 rounded-md text-sm font-medium"
               >Profile</a
             >
@@ -36,48 +36,81 @@
         </div>
       </div>
     </header>
-    <main role="main" class="container">
-      <div class="row">
-        <div class="col-md-8">
-           <article class="media content-section">
-             <img class ="rounded-circle article-img"src="{{object.author.profile.image.url}}">
-            <div class="media-body">
-              <div class="article-metadata">
-                <a class="mr-2" href="#">{{ object.author }}</a>
-                <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
-                {% if objects.author == user %}
-                  <a class="btn btn-secondary bth-sm mt-1 md-1" href="{% url 'post-update' object.id %}">Update</a>
-                  <a class="btn btn-danger bth-sm mt-1 md-1" href="{% url 'post-delete' object.id %}">Delete</a>            
-                  {% endif %}
-              </div>
-              
-              <h2 class="article-title">{{ object.title }}</h2>
-              <p class="article-content">{{ object.content }}</p>
-            </div>          
-           </article>
+    <main class="container mx-auto px-4 py-6">
+      <!-- Post Section -->
+      <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+        <div class="flex items-start space-x-4">
+          <img
+            class="rounded-full w-12 h-12"
+            src="{{object.author.profile.image.url}}"
+            alt="Author Profile"
+          />
+          <div class="flex-1">
+            <div class="text-sm text-gray-500">
+              <a href="#" class="text-blue-600 font-semibold"
+                >{{ object.author }}</a
+              >
+              <span> • </span>
+              <span>{{ object.date_posted|date:"F d, Y" }}</span>
+            </div>
+            {% if objects.author == user %}
+            <div class="mt-2">
+              <a
+                class="text-blue-500 hover:underline mr-4"
+                href="{% url 'post-update' object.id %}"
+                >Update</a
+              >
+              <a
+                class="text-red-500 hover:underline"
+                href="{% url 'post-delete' object.id %}"
+                >Delete</a
+              >
+            </div>
+            {% endif %}
+            <h2 class="text-lg font-semibold text-gray-800 mt-2">
+              {{ object.title }}
+            </h2>
+            <p class="text-gray-700 mt-4">{{ object.content }}</p>
+          </div>
         </div>
       </div>
-      <div class="container">
-        <h3>Comments</h3>
+      <!-- Comments Section -->
+      <div class="bg-white shadow-md rounded-lg p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">Comments</h3>
         {% for comment in object.postcomment_set.all %}
-        <div class="row my-3">
-            <div class="col-md-2">
-                <img src="{{ comment.user.profile.image.url }}" class="rounded-circle comment-img" alt="User Image" style="width: 50px; height: 50px;">
-            </div>
-            <div class="col-md-10">
-                <p>{{ comment.comments }}</p>
-            </div>
+        <div class="flex items-start space-x-4 mb-6">
+          <img
+            src="{{ comment.user.profile.image.url }}"
+            class="rounded-full w-10 h-10"
+            alt="User Image"
+          />
+          <div>
+            <p class="text-sm text-gray-500 font-semibold">
+              {{ comment.user }}
+            </p>
+            <p class="text-gray-700 mt-1">{{ comment.comments }}</p>
+          </div>
         </div>
         {% endfor %}
+        <!-- Comment Form -->
         <form method="post">
           {% csrf_token %}
-          <div class="form-group">
-              <textarea class="form-control" name="comments" placeholder="Add a comment"></textarea>
+          <div class="mb-4">
+            <textarea
+              class="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-orange-300"
+              name="comments"
+              rows="3"
+              placeholder="Add a comment"
+            ></textarea>
           </div>
-          <button type="submit" class="btn btn-primary">Post Comment</button>
-      </form>
-     </div>
-  </div>
+          <button
+            type="submit"
+            class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600"
+          >
+            Post Comment
+          </button>
+        </form>
+      </div>
     </main>
   </body>
 </html>

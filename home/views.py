@@ -52,27 +52,7 @@ class PostListView(LoginRequiredMixin, ListView):
         return context
 
 
-# Post detail view
-class PostDetailView(DetailView):
-    model = Post
-    template_name = 'post_detail.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['comment_form'] = CommentForm()
-        return context
-
-    def post(self, request, *args, **kwargs):
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            post = self.get_object()
-            comment = form.save(commit=False)
-            comment.user = request.user
-            comment.post = post
-            comment.save()
-            return redirect('post-detail', pk=post.pk)
-        
-
+ 
 # Post create view
 # class PostCreateView(LoginRequiredMixin, CreateView):
 #     model = Post
@@ -91,23 +71,83 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 model = pickle.load(open("./home/model.pkl", "rb"))
 vectorizer = pickle.load(open("./home/tfidf.pkl", "rb"))
 
-class PostCreateView(LoginRequiredMixin, CreateView):
+class PostDetailView(DetailView):
     model = Post
-    template_name= 'post_form.html'
-    fields = ['title', 'content']
+    template_name = 'post_detail.html'
 
-    def classify_post(self, comment):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comment_form'] = CommentForm()
+        return context
+
+    def classify_comment(self, comment):
+        # Use the loaded vectorizer and model to classify the comment
         x = vectorizer.transform([comment])
         value = model.predict(x)[0]
         return value
+
+    def post(self, request, *args, **kwargs):
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment_content = form.cleaned_data['comments']
+            # Check if the comment is classified as spam
+            is_spam = self.classify_comment(comment_content)
+
+            if is_spam:
+                return HttpResponse("Spam detected in comment")
+
+            post = self.get_object()
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.post = post
+            comment.save()
+            return redirect('post-detail', pk=post.pk)
+
+# class PostCreateView(LoginRequiredMixin, CreateView):
+#     model = Post
+#     template_name= 'post_form.html'
+#     fields = ['title', 'content']
+
+#     def classify_post(self, comment):
+#         x = vectorizer.transform([comment])
+#         value = model.predict(x)[0]
+#         return value
         
+#     def form_valid(self, form):
+#         canPost = not self.classify_post(self.request.POST.get("content"))
+#         if not canPost:
+#             return HttpResponse("Spam detected")
+#         form.instance.author = self.request.user
+#         return super().form_valid(form)
+
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Post
+    template_name = 'post_form.html'
+    fields = ['title', 'content']
+
+    def classify_text(self, text):
+        """Classify a given text (title or content) as spam or not."""
+        x = vectorizer.transform([text])
+        value = model.predict(x)[0]
+        return value
+
     def form_valid(self, form):
-        canPost = not self.classify_post(self.request.POST.get("content"))
-        if not canPost:
-            return HttpResponse("Spam detected")
+        # Extract title and content from the form
+        title = self.request.POST.get("title")
+        content = self.request.POST.get("content")
+
+        # Check if either the title or content is classified as spam
+        is_title_spam = self.classify_text(title)
+        is_content_spam = self.classify_text(content)
+
+        if is_title_spam:
+            return HttpResponse("Spam detected in the title")
+        elif is_content_spam:
+            return HttpResponse("Spam detected in the content")
+
+        # If no spam detected, associate the author and proceed
         form.instance.author = self.request.user
         return super().form_valid(form)
-
 
 
 # Detail page view
