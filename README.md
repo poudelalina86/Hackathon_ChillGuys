@@ -94,4 +94,4 @@ We welcome contributions! Fork the repository, create a feature branch, and subm
 - **Django Documentation**: [Django Project](https://www.djangoproject.com/)  
 - **Tailwind CSS**: [Tailwind CSS](https://tailwindcss.com/)  
 - **Bootstrap**: [Bootstrap](https://getbootstrap.com/)  
-- **Machine Learning Model**: Pre-trained NLP model for hate speech detection.  
+- **Machine Learning Model**: NLP model for hate speech detection.  
