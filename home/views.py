@@ -14,13 +14,11 @@ from .forms import CommentForm
 import os
 import pickle
 from django.shortcuts import render
-import openai
  
 from .models import Chat
 
 from django.utils import timezone
 
-import requests
 
 
 import google.generativeai as genai
