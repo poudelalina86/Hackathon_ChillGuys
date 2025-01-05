@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
@@ -12,6 +13,74 @@ from .models import Post
 from .forms import CommentForm
 import os
 import pickle
+from django.shortcuts import render
+import openai
+ 
+from .models import Chat
+
+from django.utils import timezone
+
+import requests
+
+
+import google.generativeai as genai
+from django.contrib.auth.decorators import login_required
+
+
+
+genai.configure(api_key="AIzaSyCZRp4A6x0yv5722qUOgRbT7e2o3p9ja3I")
+
+# Define a prompt for assisting with sadness
+input_prompt = """
+You are a compassionate and supportive assistant.Keep it short, sweet, and always Acknowledge the user's feelings with empathy, understanding, and kindness. Provide comforting words to help them through sadness or difficult emotions. Occasionally, crack light-hearted jokes or share fun, uplifting messages to lift their spirits, ensuring that the humor remains gentle and never dismissive. Encourage the user to share their feelings and provide positive encouragement. Always remind them that it’s okay to seek professional help if needed. Make sure to always balance empathy with moments of lightheartedness to brighten their day.
+"""
+
+
+# Function to interact with the Gemini model
+def ask_gemini(message):
+    # Initialize the model (replace with the correct model if needed)
+    model = genai.GenerativeModel("gemini-1.5-flash")
+    
+    # Create the message to send to Gemini (including the prompt and the user's message)
+    full_message = input_prompt + "\n" + "User: " + message
+    
+    # Generate response based on the input message
+    response = model.generate_content(full_message)
+    
+    return response.text
+
+# Create your views here.
+@login_required(login_url='/loginpage')
+def chatbot(request):
+    # Clear the previous chats for the user to start fresh
+    Chat.objects.filter(user=request.user).delete()
+
+    # No previous chats, so the list is empty
+    chats = []
+
+    if request.method == 'POST':
+        # Get the message sent by the user
+        message = request.POST.get('message')
+        
+        # Get response from Gemini model
+        response = ask_gemini(message)
+
+        # Save the chat to the database
+        chat = Chat(user=request.user, message=message, response=response, created_at=timezone.now())
+        chat.save()
+        
+        # Return the response as JSON
+        return JsonResponse({'message': message, 'response': response})
+    
+    # Render the chatbot page with no previous chats
+    return render(request, 'chatbot.html', {'chats': chats})
+
+# Home page view
+@login_required(login_url='/loginpage')
+def homepage(request):
+    context = {'posts': Post.objects.all()}
+    return render(request, 'homepage.html', context)
+
 
 
 # Index view
@@ -25,10 +94,10 @@ def logoutuser(request):
 
 
 # Home page view
-@login_required(login_url='/loginpage')
-def homepage(request):
-    context = {'posts': Post.objects.all()}
-    return render(request, 'homepage.html', context)
+# @login_required(login_url='/loginpage')
+# def homepage(request):
+#     context = {'posts': Post.objects.all()}
+#     return render(request, 'homepage.html', context)
 
 @login_required(login_url='/loginpage')
 def postcreate(request):

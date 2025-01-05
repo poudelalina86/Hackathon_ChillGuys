@@ -14,6 +14,7 @@ urlpatterns = [
     path('homepage/post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
     path('homepage/post/create/', PostCreateView.as_view(),name='post-create'),
     path('postcreate', views.postcreate, name="postcreate"),
+    path('chatbot', views.chatbot, name='chatbot'),
     path('profile',user_views.profile,name="profile"),
     path('logout',views.logoutuser,name="logout"),
     
