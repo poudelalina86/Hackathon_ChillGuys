@@ -1,92 +1,97 @@
-# Hate Speech and Offensive Comment Detection Platform
+# Hate Speech and Offensive Comment Detection Platform  
 
-This project is a web platform designed to detect and delete hate speech and offensive comments. The platform is built using **HTML**, **CSS**, **JavaScript**, and **Django**, providing features like user authentication (sign in/sign up), profile management, and content moderation.
+This project is a web-based platform designed to detect and manage hate speech and offensive comments effectively. Built using **HTML**, **CSS**, **JavaScript**, and **Django**, the platform offers user authentication, profile management, content moderation, and even a chatbot for user interaction.  
 
-## Features
+## Features  
 
-1. **User Authentication**
-   - Secure login and registration system with CSRF protection.
-   - Passwords are hashed for security.
+### 1. **User Authentication**  
+- Secure login and registration system with CSRF protection.  
+- Passwords are hashed to ensure user security.  
 
-2. **Content Moderation**
-   - Automatic detection of hate speech and offensive comments using a pre-trained machine learning model.
-   - Offensive comments are flagged or deleted automatically.
+### 2. **Content Moderation**  
+- Automatic detection of hate speech and offensive comments using a pre-trained machine learning model.  
+- Offensive comments are flagged or automatically deleted.  
 
-3. **Profile Management**
-   - Users can upload and update their profile pictures.
-   - Users can edit their personal details (e.g., username, email, etc.).
+### 3. **Profile Management**  
+- Users can upload and update profile pictures.  
+- Personal details (e.g., username, email) can be edited easily.  
 
-## Technologies Used
+### 4. **Interactive Chatbot**  
+- A chatbot feature is included, allowing users to engage in conversations or ask platform-related queries.  
 
-### Frontend
-- **HTML**: For structuring the web pages.
-- **CSS (Tailwind CSS, Bootstrap)**: For styling and responsive design.
-- **JavaScript**: For interactive features.
+## Technologies Used  
 
-### Backend
-- **Django**: For server-side logic and database management.
-- **SQLite**: Default database for development.
-- **Pre-trained Machine Learning Model**: Used for detecting hate speech and offensive comments.
+### Frontend  
+- **HTML**: Structuring web pages.  
+- **CSS** (Tailwind CSS, Bootstrap): Styling and responsive design.  
+- **JavaScript**: Adding interactivity and dynamic features.  
 
-## Installation
+### Backend  
+- **Django**: Server-side logic and database management.  
+- **SQLite**: Default database for development.  
+- **Pre-trained Machine Learning Model**: Detects hate speech and offensive comments using NLP.  
 
-Follow these steps to set up the project locally:
+## Installation  
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/Asmiadhikari/hate-speech-detection.git
-   cd hate-speech-detection
-   ```
+Set up the project locally with the following steps:  
 
-2. **Set up a virtual environment**
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
+1. **Clone the repository**  
+   ```bash  
+   git clone https://github.com/poudelalina86/HackathonChillGuys.git  
+   cd HackathonChillGuys  
+   ```  
 
-3. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
+2. **Set up a virtual environment**  
+   ```bash  
+   python -m venv venv  
+   source venv/bin/activate  # On Windows: venv\Scripts\activate  
+   ```  
 
-4. **Run migrations**
-   ```bash
-   python manage.py migrate
-   ```
+3. **Install dependencies**  
+   ```bash  
+   pip install -r requirements.txt  
+   ```  
 
-5. **Start the development server**
-   ```bash
-   python manage.py runserver
-   ```
+4. **Run migrations**  
+   ```bash  
+   python manage.py migrate  
+   ```  
 
-6. **Access the platform**
-   Open your browser and go to `http://127.0.0.1:8000/`.
+5. **Start the development server**  
+   ```bash  
+   python manage.py runserver  
+   ```  
 
-## Usage
+6. **Access the platform**  
+   Open your browser and navigate to `http://127.0.0.1:8000/`.  
 
-1. **Sign Up**: Create an account using the sign-up page.
-2. **Log In**: Log in with your credentials.
-3. **Post Content**: Add posts or comments on the platform.
-4. **Moderation**: Offensive content is detected and automatically deleted or flagged.
-5. **Edit Profile**: Update your profile picture and personal details.
+## Usage  
 
-## Machine Learning Model
-The platform uses a pre-trained hate speech detection model. The model is stored in an `.pkl` file and is loaded during server startup. The model predicts whether a comment contains offensive or hate speech using natural language processing (NLP).
+1. **Sign Up**: Create an account through the sign-up page.  
+2. **Log In**: Access your account with your credentials.  
+3. **Post Content**: Add posts or comments on the platform.  
+4. **Moderation**: Offensive content is automatically flagged or deleted.  
+5. **Chatbot**: Interact with the chatbot for assistance or casual conversations.  
+6. **Edit Profile**: Update profile details and pictures.  
 
-## Future Enhancements
-- Add a user dashboard with analytics (e.g., number of flagged comments).
-- Implement a warning system for users who post offensive content.
-- Extend support for multiple languages in hate speech detection.
-- Add email notifications for flagged comments.
+## Machine Learning Model  
 
-## Contributing
-Feel free to fork this repository and submit pull requests. Any contributions, suggestions, or bug reports are welcome!
+The platform incorporates a pre-trained hate speech detection model stored in an `.pkl` file. The model leverages natural language processing (NLP) to predict whether a comment contains hate speech or offensive language.  
 
-## Acknowledgments
-- **Django Documentation**: [Django Project](https://www.djangoproject.com/)
-- **Tailwind CSS**: [Tailwind CSS](https://tailwindcss.com/)
-- **Bootstrap**: [Bootstrap](https://getbootstrap.com/)
-- **Machine Learning Model**: Pre-trained NLP model for hate speech detection.
+## Future Enhancements  
 
----
+- Add a user dashboard with analytics, such as the number of flagged comments.  
+- Implement a warning or penalty system for users who repeatedly post offensive content.  
+- Extend support for detecting hate speech in multiple languages.  
+- Send email notifications to users when their comments are flagged.  
 
+## Contributing  
+
+We welcome contributions! Fork the repository, create a feature branch, and submit a pull request. Suggestions and bug reports are encouraged.  
+
+## Acknowledgments  
+
+- **Django Documentation**: [Django Project](https://www.djangoproject.com/)  
+- **Tailwind CSS**: [Tailwind CSS](https://tailwindcss.com/)  
+- **Bootstrap**: [Bootstrap](https://getbootstrap.com/)  
+- **Machine Learning Model**: Pre-trained NLP model for hate speech detection.  
