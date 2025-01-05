@@ -160,7 +160,10 @@ class PostDetailView(DetailView):
             is_spam = self.classify_comment(comment_content)
 
             if is_spam:
-                return HttpResponse("Spam detected in comment")
+              context = {
+                'message': "Oops! It looks like some of your input was flagged as spam. Don't worry, you can try submitting again with different words. Let's create something amazing!"
+            }
+            return render(self.request, 'spam_detected.html', context)
 
             post = self.get_object()
             comment = form.save(commit=False)
