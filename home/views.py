@@ -14,7 +14,7 @@ from .forms import CommentForm
 import os
 import pickle
 from django.shortcuts import render
-import openai
+ 
  
 from .models import Chat
 
@@ -121,23 +121,110 @@ class PostListView(LoginRequiredMixin, ListView):
 
 
  
-# Post create view
+ 
+
+# from sklearn.feature_extraction.text import TfidfVectorizer
+
+# model = pickle.load(open("./home/model.pkl", "rb"))
+# vectorizer = pickle.load(open("./home/tfidf.pkl", "rb"))
+
+# class PostDetailView(DetailView):
+#     model = Post
+#     template_name = 'post_detail.html'
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['comment_form'] = CommentForm()
+#         return context
+
+#     def classify_comment(self, comment):
+#         # Use the loaded vectorizer and model to classify the comment
+#         x = vectorizer.transform([comment])
+#         value = model.predict(x)[0]
+#         return value
+
+#     def post(self, request, *args, **kwargs):
+#         form = CommentForm(request.POST)
+#         if form.is_valid():
+#             comment_content = form.cleaned_data['comments']
+#             # Check if the comment is classified as spam
+#             is_spam = self.classify_comment(comment_content)
+
+#             if is_spam:
+#                 return HttpResponse("Spam detected in comment")
+
+#             post = self.get_object()
+#             comment = form.save(commit=False)
+#             comment.user = request.user
+#             comment.post = post
+#             comment.save()
+#             return redirect('post-detail', pk=post.pk)
+
+ 
+
 # class PostCreateView(LoginRequiredMixin, CreateView):
 #     model = Post
-#     template_name = 'createpost.html'  # Template for the form
-#     fields = ['title', 'content']  # Fields for the form
+#     template_name = 'post_form.html'
+#     fields = ['title', 'content']
+
+#     def classify_text(self, text):
+#         """Classify a given text (title or content) as spam or not."""
+#         x = vectorizer.transform([text])
+#         value = model.predict(x)[0]
+#         return value
 
 #     def form_valid(self, form):
-#         form.instance.author = self.request.user  # Associate the post with the logged-in user
+#         # Extract title and content from the form
+#         title = self.request.POST.get("title")
+#         content = self.request.POST.get("content")
+
+#         # Check if either the title or content is classified as spam
+#         is_title_spam = self.classify_text(title)
+#         is_content_spam = self.classify_text(content)
+
+#         # if is_title_spam:
+#         #     return HttpResponse("Spam detected in the title")
+#         # elif is_content_spam:
+#         #     return HttpResponse("Spam detected in the content")
+
+#         if is_title_spam or is_content_spam:
+#             # Prepare a positive message for spam detection
+#             context = {
+#                 'message': "Oops! It looks like some of your input was flagged as spam. Don't worry, you can try submitting again with different words. Let's create something amazing!"
+#             }
+#             return render(self.request, 'spam_detected.html', context)
+#         # If no spam detected, associate the author and proceed
+#         form.instance.author = self.request.user
 #         return super().form_valid(form)
+import sys
+import tensorflow.keras.preprocessing.text
+sys.modules['keras.src.legacy'] = tensorflow.keras
 
-#     def get_success_url(self):
-#         return reverse_lazy('homepage')  # Redirect to homepage after post is created
+ 
+from tensorflow.keras.models import load_model
+import pickle
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 
-from sklearn.feature_extraction.text import TfidfVectorizer
+# Load the Keras model
+model = load_model('./home/model.h5')  # Ensure the model is saved in HDF5 format
 
-model = pickle.load(open("./home/model.pkl", "rb"))
-vectorizer = pickle.load(open("./home/tfidf.pkl", "rb"))
+# Load the tokenizer
+with open('./home/tokenizer.pkl', 'rb') as handle:
+    tokenizer = pickle.load(handle)
+
+# Load the max_length value
+with open('./home/max_length.txt', 'r') as file:
+    max_length = int(file.read())
+
+# Helper function to classify text
+def classify_text(text):
+    """Classify a given text using the loaded model."""
+    sequence = tokenizer.texts_to_sequences([text])
+    padded_sequence = pad_sequences(sequence, maxlen=max_length, padding='post')
+    prediction = model.predict(padded_sequence)
+    predicted_class = prediction.argmax(axis=-1)[0]  # Get the predicted class (0 or 1)
+    return predicted_class
+
 
 class PostDetailView(DetailView):
     model = Post
@@ -148,20 +235,14 @@ class PostDetailView(DetailView):
         context['comment_form'] = CommentForm()
         return context
 
-    def classify_comment(self, comment):
-        # Use the loaded vectorizer and model to classify the comment
-        x = vectorizer.transform([comment])
-        value = model.predict(x)[0]
-        return value
-
     def post(self, request, *args, **kwargs):
         form = CommentForm(request.POST)
         if form.is_valid():
             comment_content = form.cleaned_data['comments']
-            # Check if the comment is classified as spam
-            is_spam = self.classify_comment(comment_content)
+            # Classify the comment
+            is_spam = classify_text(comment_content)
 
-            if is_spam:
+            if is_spam == 1:
                 return HttpResponse("Spam detected in comment")
 
             post = self.get_object()
@@ -171,54 +252,27 @@ class PostDetailView(DetailView):
             comment.save()
             return redirect('post-detail', pk=post.pk)
 
-# class PostCreateView(LoginRequiredMixin, CreateView):
-#     model = Post
-#     template_name= 'post_form.html'
-#     fields = ['title', 'content']
-
-#     def classify_post(self, comment):
-#         x = vectorizer.transform([comment])
-#         value = model.predict(x)[0]
-#         return value
-        
-#     def form_valid(self, form):
-#         canPost = not self.classify_post(self.request.POST.get("content"))
-#         if not canPost:
-#             return HttpResponse("Spam detected")
-#         form.instance.author = self.request.user
-#         return super().form_valid(form)
-
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    template_name = 'post_form.html'
+    template_name = 'createpost.html'
     fields = ['title', 'content']
-
-    def classify_text(self, text):
-        """Classify a given text (title or content) as spam or not."""
-        x = vectorizer.transform([text])
-        value = model.predict(x)[0]
-        return value
 
     def form_valid(self, form):
         # Extract title and content from the form
         title = self.request.POST.get("title")
         content = self.request.POST.get("content")
 
-        # Check if either the title or content is classified as spam
-        is_title_spam = self.classify_text(title)
-        is_content_spam = self.classify_text(content)
+        # Classify the title and content
+        is_title_spam = classify_text(title)
+        is_content_spam = classify_text(content)
 
-        # if is_title_spam:
-        #     return HttpResponse("Spam detected in the title")
-        # elif is_content_spam:
-        #     return HttpResponse("Spam detected in the content")
-
-        if is_title_spam or is_content_spam:
-            # Prepare a positive message for spam detection
+        if is_title_spam == 1 or is_content_spam == 1:
+            # Display a positive spam detection message
             context = {
                 'message': "Oops! It looks like some of your input was flagged as spam. Don't worry, you can try submitting again with different words. Let's create something amazing!"
             }
             return render(self.request, 'spam_detected.html', context)
+
         # If no spam detected, associate the author and proceed
         form.instance.author = self.request.user
         return super().form_valid(form)
