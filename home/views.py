@@ -122,8 +122,6 @@ class PostListView(LoginRequiredMixin, ListView):
 import sys
 import tensorflow.keras.preprocessing.text
 sys.modules['keras.src.legacy'] = tensorflow.keras
-
- 
 from tensorflow.keras.models import load_model
 import pickle
 from tensorflow.keras.preprocessing.sequence import pad_sequences
